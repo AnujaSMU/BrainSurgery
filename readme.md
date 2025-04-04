@@ -9,13 +9,13 @@
   - `sequence_length`: Number of tokens in generated text (varies per prompt)
   - `hidden_size`: 1152
 
-Shape of activations_0.pt: torch.Size([49, 1152])
-Shape of activations_1.pt: torch.Size([29, 1152])
-Shape of activations_2.pt: torch.Size([50, 1152])
-Shape of activations_3.pt: torch.Size([50, 1152])
-Shape of activations_4.pt: torch.Size([47, 1152])
-Shape of activations_5.pt: torch.Size([53, 1152])
-Shape of activations_6.pt: torch.Size([31, 1152])
+- Shape of activations_0.pt: torch.Size([49, 1152])
+- Shape of activations_1.pt: torch.Size([29, 1152])
+- Shape of activations_2.pt: torch.Size([50, 1152])
+- Shape of activations_3.pt: torch.Size([50, 1152])
+- Shape of activations_4.pt: torch.Size([47, 1152])
+- Shape of activations_5.pt: torch.Size([53, 1152])
+- Shape of activations_6.pt: torch.Size([31, 1152])
 
 Each activation tensor corresponds to one forward pass of the model over generated tokens, capturing the hidden states from a selected transformer layer.
 
