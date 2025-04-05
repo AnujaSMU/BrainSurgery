@@ -2,6 +2,49 @@
 ## Part 1
 ## Reasoning
 
+# Activation Hook Placement and Interpretation in DistilGPT2
+
+## 🔍 Hook Placement Rationale
+
+I placed a forward hook on `transformer.h.0.mlp.c_fc`, the first MLP layer in **DistilGPT2**. This layer expands the hidden state from 768 to 3072 dimensions and is early enough to capture meaningful intermediate representations before deeper abstractions emerge.
+
+This decision aligns with the approach in Anthropic’s paper, _“A Mechanistic Interpretability Analysis of GPT-2 Small”_, which focuses on **middle-layer MLPs and residual streams**. According to their research, these layers often encode semantically meaningful features, such as syntax, tone, and topic. By hooking into this layer, we can gain insight into the early stages of token processing and concept formation in the model.
+
+---
+
+## 📊 Output Interpretation
+
+The output from the model:
+Layer: transformer.h.0.mlp.c_fc, Shape: torch.Size([1, 1, 3072])
+
+
+This output shows that we successfully captured the activation of 3072 neurons for one generated token. This dense vector represents the intermediate transformation of that token, reflecting how the model internally represents it in the early stages of computation.
+
+---
+
+## ⚠️ Limitations
+
+While activation collection is valuable, it comes with some important limitations:
+
+- **Correlation, not causation**: We can only observe the correlation between activations and token generation, but we cannot confirm whether a particular neuron directly caused the token generation.
+- **Superposition**: Neurons in deep models often represent multiple overlapping features, making it difficult to isolate a single feature or concept.
+- **Single-layer snapshot**: Activations from just one layer provide a limited view of the model’s processing. We don’t capture the full evolution of token representations through multiple layers.
+- **Token-level only**: The activations correspond to a single token and do not capture the evolution of the entire sequence.
+- **No intervention**: We don’t modify activations or test their impact on the model’s output, meaning we cannot fully assess the role of each neuron in decision-making.
+
+---
+
+## ✅ Conclusion
+
+By hooking into the `transformer.h.0.mlp.c_fc` layer, we gather meaningful activation data that aligns with the research on interpretable neurons in LLMs. However, fully explaining model behavior requires **causal analysis**, **cross-layer investigation**, and **activation manipulation** to better understand how the model arrives at its decisions.
+
+---
+
+## Notes
+
+This project leverages **DistilGPT2** for text generation with activation collection via hooks, which can be useful for interpretability studies and exploring the internal workings of transformer models.
+
+
 ## Part 2
 ## 📄 Dataset Overview
 
