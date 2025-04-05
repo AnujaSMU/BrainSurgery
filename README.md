@@ -281,6 +281,15 @@ Across a range of prompts (casual, factual, programming-related, humorous), clam
 - **Max diff**: 2.6325
 - **Top change**: Dimension 11406 decreased by 2.6325
 
+### Training Values
+```
+Epoch 48:
+Train Loss: 0.0354
+Val Loss: 0.0267
+LR: 3.00e-07
+Sparsity: 4.2%
+```
+
 ### General observations:
 
 - Top changes occurred in **consistent dimensions** across different prompts (e.g., 26382, 2190, 1038).
