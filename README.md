@@ -4,7 +4,7 @@
 
 # Activation Hook Placement and Interpretation in DistilGPT2
 
-## 🔍 Hook Placement Rationale
+## Hook Placement Rationale
 
 I placed a forward hook on `transformer.h.0.mlp.c_fc`, the first MLP layer in **DistilGPT2**. This layer expands the hidden state from 768 to 3072 dimensions and is early enough to capture meaningful intermediate representations before deeper abstractions emerge.
 
@@ -12,7 +12,7 @@ This decision aligns with the approach in Anthropic’s paper, _“A Mechanistic
 
 ---
 
-## 📊 Output Interpretation
+## Output Interpretation
 
 The output from the model:
 Layer: transformer.h.0.mlp.c_fc, Shape: torch.Size([1, 1, 3072])
@@ -22,7 +22,7 @@ This output shows that we successfully captured the activation of 3072 neurons f
 
 ---
 
-## ⚠️ Limitations
+## Limitations
 
 While activation collection is valuable, it comes with some important limitations:
 
@@ -34,7 +34,7 @@ While activation collection is valuable, it comes with some important limitation
 
 ---
 
-## ✅ Conclusion
+## Conclusion
 
 By hooking into the `transformer.h.0.mlp.c_fc` layer, we gather meaningful activation data that aligns with the research on interpretable neurons in LLMs. However, fully explaining model behavior requires **causal analysis**, **cross-layer investigation**, and **activation manipulation** to better understand how the model arrives at its decisions.
 
@@ -46,7 +46,7 @@ This project leverages **DistilGPT2** for text generation with activation collec
 
 
 ## Part 2
-## 📄 Dataset Overview
+## Dataset Overview
 
 - **Model used:** google/gemma-3-1b-it
 - **Number of prompts:** 7
@@ -67,7 +67,7 @@ Each activation tensor corresponds to one forward pass of the model over generat
 
 ---
 
-## 🧠 Prompt Selection Strategy
+## Prompt Selection Strategy
 
 The prompts were chosen to cover a **diverse range of semantic and syntactic patterns**. This diversity increases the likelihood that the autoencoder will learn **interpretable and generalizable features** from the model’s internal representations.
 
@@ -98,14 +98,14 @@ These categories allow us to test whether the autoencoder can isolate latent fea
 
 ---
 
-## 🗂 Files
+## Files
 
 - `activation_dataset/activations_*.pt` — Torch tensors for each prompt
 - `activation_dataset/metadata.json` — Contains prompt, tokens, and generated text for each activation file
 
 ---
 
-## 📌 Next Step
+## Next Step
 
 These activations will now be used to train a **sparse autoencoder**, with the goal of uncovering **human-interpretable features** encoded in the model’s latent space.
 
@@ -233,7 +233,7 @@ To prove that Feature 6024 corresponds to an interpretable concept, we clamp its
 
 ---
 
-### 🧪 Methodology
+### Methodology
 
 ### Step 1: Feature Selection
 
@@ -263,7 +263,7 @@ We report:
 
 ---
 
-### 🔎 Results Summary
+### Results Summary
 
 Across a range of prompts (casual, factual, programming-related, humorous), clamping Feature 6024 consistently caused **widespread and high-magnitude activation changes**. For example:
 
