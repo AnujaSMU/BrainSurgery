@@ -42,7 +42,7 @@ These categories allow us to test whether the autoencoder can isolate latent fea
 
 ---
 
-## 📊 Summary Statistics
+## Summary Statistics
 
 | Metric                       | Value                          |
 |-----------------------------|---------------------------------|
@@ -68,7 +68,7 @@ These activations will now be used to train a **sparse autoencoder**, with the g
 
 
 
-## Part-3
+## Part 3
 
 ## Sparse Autoencoder for LLM Activation Analysis
 
@@ -97,3 +97,89 @@ We tried two different model implementations, one with just the basic definition
 We got significantly lower loss in the second implementation (`sparse_ae.pth`).
 
 In this implementation, DeepSeek suggested we normalize the activations aggressivly, along with lowering the L1 regularization and using a learning rate schedule based on plateauing 
+
+## Part 6 - Feature 6024 – Counterfactual Activation Clamping Experiment
+
+### Goal
+
+To prove that Feature 6024 corresponds to an interpretable concept, we clamp its activation in the encoded representation and observe the effect on downstream model behavior. This is done via **counterfactual intervention**, where we compare:
+
+- **Baseline activations**: Normal model behavior.
+- **Clamped activations**: Feature 6024 is artificially activated to a fixed high value.
+
+---
+
+### Setup
+
+- The model is first trained and compressed using an autoencoder.
+- We analyze activations over a fixed set of prompts and identify the most *interpretable* features.
+- Feature 6024 was selected for intervention due to consistently strong activations on the prompt:
+
+```
+"The theory of relativity explains..."
+```
+
+---
+
+### 🧪 Methodology
+
+### Step 1: Feature Selection
+
+We identified the top 5 most active features using `find_interpretable_features()`. Feature 6024 stood out with a high average activation and repeated strong activation on prompts related to scientific or technical language.
+
+### Step 2: Clamping Feature 6024
+
+The function `clamp_feature()` manually sets Feature 6024 to a constant high value (5.0) in the latent space:
+
+```python
+modified_encoded[:, feature_idx] = clamp_value
+```
+
+The autoencoder's decoder is then used to reconstruct the modified activation vector.
+
+### Step 3: Counterfactual Comparison
+
+For each prompt, we compare:
+
+- **Baseline**: Original activation.
+- **Clamped**: Activation with Feature 6024 forced to 5.0.
+
+We report:
+- Mean absolute difference
+- Max difference
+- Top 5 dimensions with largest activation shifts
+
+---
+
+### 🔎 Results Summary
+
+Across a range of prompts (casual, factual, programming-related, humorous), clamping Feature 6024 consistently caused **widespread and high-magnitude activation changes**. For example:
+
+### Sample result for prompt:
+`"Write a Python function to reverse a string."`
+
+- **Mean abs diff**: 0.1596
+- **Max diff**: 2.6862
+- **Top change**: Dimension 26382 decreased by 2.6862
+
+### Sample result for prompt:
+`"The theory of relativity explains..."`
+
+- **Mean abs diff**: 0.1482
+- **Max diff**: 2.6325
+- **Top change**: Dimension 11406 decreased by 2.6325
+
+### General observations:
+
+- Top changes occurred in **consistent dimensions** across different prompts (e.g., 26382, 2190, 1038).
+- Changes were mostly **negative**, suggesting the feature suppresses certain latent dimensions.
+- Even non-technical prompts (e.g., jokes, casual chat) were affected—indicating that Feature 6024 represents a **dominant semantic factor**.
+
+---
+
+## Interpretation
+
+- **Feature 6024** appears to be linked to **scientific or technical exposition**, based on its activation pattern—specifically its strong response to prompts like _"The theory of relativity explains..."_.
+- While we did **not decode** the clamped latent space back into text, the **magnitude and consistency of activation changes** suggest that Feature 6024 has a substantial influence on the representation space.
+- The widespread and systematic changes across unrelated prompts (e.g., jokes, questions, code) imply that Feature 6024 represents a **high-impact semantic dimension** within the model's internal representations.
+- This supports the hypothesis that some latent features may act as **controllable knobs**, shaping the overall interpretation or direction of the model's internal processing—even without generating text.
