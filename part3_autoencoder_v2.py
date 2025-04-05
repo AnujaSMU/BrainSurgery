@@ -51,8 +51,6 @@ def train_autoencoder(args):
     input_dim = activations.shape[-1]
     autoencoder = RobustSparseAutoencoder(
         input_dim,
-        encoder_dim=args.encoder_dim,
-        l1_penalty=args.l1_penalty
     ).to(device)
 
     # Optimizer with very low LR

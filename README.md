@@ -1,8 +1,8 @@
 # Brain Surgery
-## Part 1
+# Part 1
 ## Reasoning
 
-# Activation Hook Placement and Interpretation in DistilGPT2
+## Activation Hook Placement and Interpretation in DistilGPT2
 
 ## Hook Placement Rationale
 
@@ -323,15 +323,31 @@ We report:
 
 Across a range of prompts (casual, factual, programming-related, humorous), clamping Feature 6024 consistently caused **widespread and high-magnitude activation changes**. For example:
 
-### Sample result for prompt:
+```aiignore
+CLAMPED (Feature 6024):
+
+DIFFERENCES:
+Mean absolute difference: 0.1042
+Max absolute difference: 2.6411
+
+Top 5 activation changes:
+1. Dimension 2190: 2.6411 (decreased)
+2. Dimension 32142: 2.5950 (decreased)
+3. Dimension 1038: 2.5806 (decreased)
+4. Dimension 10254: 2.5618 (decreased)
+5. Dimension 11406: 2.5425 (decreased)
+
+```
+
+### Result for prompt:
 `"Write a Python function to reverse a string."`
 
 - **Mean abs diff**: 0.1596
 - **Max diff**: 2.6862
 - **Top change**: Dimension 26382 decreased by 2.6862
 
-### Sample result for prompt:
-`"The theory of relativity explains..."`
+### Result for prompt:
+`"TThe theory of relativity explains...", "TThe theory of relativity explains...", "The theory of relativity explains..."`
 
 - **Mean abs diff**: 0.1482
 - **Max diff**: 2.6325
