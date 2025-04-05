@@ -134,6 +134,15 @@ SparseAutoencoder(
   )
   (decoder): Sequential(...)
 ```
+
+### Training Values
+```
+Epoch 48:
+Train Loss: 0.0354
+Val Loss: 0.0267
+LR: 3.00e-07
+Sparsity: 4.2%
+```
 ### Other Notes
 We tried two different model implementations, one with just the basic definitions and hyperparameters (as outlined in the paper) and another that we had DeepSeek optimize.
 
@@ -150,8 +159,55 @@ This part outlines the analysis of sparse autoencoder features and their activat
 - Total Prompts Analyzed: 7
 - Sparse Autoencoder: Loaded and used for dimensionality reduction
 - Top 5 Most Active Features were examined
-- Counterfactual clamping was performed on Feature 6024
+- Counterfactual clamping was later performed on Feature 6024
 
+```aiignore
+
+Global Analysis Results:
+Reconstruction Error: 0.043706
+Sparsity (% features < 0.01): 3.45%
+
+Analyzing Top 5 Most Active Features:
+
+Feature 3519 (avg activation: 0.6070):
+Top 5 activating texts:
+
+2. Activation strength: -0.4268
+Text: Write a Python function to reverse a string....
+
+
+4. Activation strength: -0.4749
+Text: If we were both code, I'd say you're the syntax to my logic....
+
+
+Feature 3178 (avg activation: 0.5672):
+Top 5 activating texts:
+
+1. Activation strength: 0.9688
+Text: Write a Python function to reverse a string....
+
+
+Feature 6781 (avg activation: 0.5601):
+Top 5 activating texts:
+
+1. Activation strength: 0.8364
+Text: Tell me a joke that would make even a robot laugh....
+
+
+5. Activation strength: 0.8104
+Text: The theory of relativity explains......
+
+Feature 957 (avg activation: 0.5517):
+Top 5 activating texts:
+
+
+3. Activation strength: -0.4327
+Text: Write a Python function to reverse a string....
+
+5. Activation strength: -0.4568
+Text: What is the capital of France?...
+
+```
 ---
 
 
@@ -281,14 +337,7 @@ Across a range of prompts (casual, factual, programming-related, humorous), clam
 - **Max diff**: 2.6325
 - **Top change**: Dimension 11406 decreased by 2.6325
 
-### Training Values
-```
-Epoch 48:
-Train Loss: 0.0354
-Val Loss: 0.0267
-LR: 3.00e-07
-Sparsity: 4.2%
-```
+
 
 ### General observations:
 

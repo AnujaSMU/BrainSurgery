@@ -31,7 +31,7 @@ class RobustSparseAutoencoder(nn.Module):
         x = self.input_norm(x)
         return self.encoder(x)
 
-def load_model(model_path="models/sparse_ae.pth", input_dim=1152):
+def load_model(model_path="../models/sparse_ae.pth", input_dim=1152):
     """Load the trained sparse autoencoder model"""
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     model = RobustSparseAutoencoder(input_dim).to(device)
@@ -100,7 +100,7 @@ def analyze_feature(model, activations, texts, feature_idx, top_k=10):
 
 def main():
     # Load test activation and corresponding texts
-    activation_path = "activation_dataset/activations_0.pt"
+    activation_path = "../activation_dataset/activations_0.pt"
     prompts = [
         "Once upon a time in a distant land",  # To explore story structure, named entities, and sequence continuity
         "What is the capital of France?",  # To probe knowledge recall and factual associations
